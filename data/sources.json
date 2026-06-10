@@ -1,0 +1,112 @@
+{
+  "_comment": "Each entry = one German statute slice to ingest. 'slug' is the gesetze-im-internet.de path. 'include' lists paragraph ranges (e.g. '535-580a'); empty = whole law. Same law may appear under several domains. Add more entries to grow coverage, then re-run app.ingest && app.index.",
+  "laws": [
+    {
+      "law": "BGB", "slug": "bgb",
+      "name_de": "Bürgerliches Gesetzbuch", "name_en": "German Civil Code",
+      "domain": "housing", "include": ["535-577a"]
+    },
+    {
+      "law": "BGB", "slug": "bgb",
+      "name_de": "Bürgerliches Gesetzbuch", "name_en": "German Civil Code",
+      "domain": "contracts", "include": ["305-310", "312-312k", "355-361"]
+    },
+    {
+      "law": "BGB", "slug": "bgb",
+      "name_de": "Bürgerliches Gesetzbuch", "name_en": "German Civil Code",
+      "domain": "work", "include": ["611-630"]
+    },
+    {
+      "law": "KSchG", "slug": "kschg",
+      "name_de": "Kündigungsschutzgesetz", "name_en": "Act on Protection Against Unfair Dismissal",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "BUrlG", "slug": "burlg",
+      "name_de": "Bundesurlaubsgesetz", "name_en": "Federal Leave Act",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "MiLoG", "slug": "milog",
+      "name_de": "Mindestlohngesetz", "name_en": "Minimum Wage Act",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "TzBfG", "slug": "tzbfg",
+      "name_de": "Teilzeit- und Befristungsgesetz", "name_en": "Part-Time and Fixed-Term Employment Act",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "EntgFG", "slug": "entgfg",
+      "name_de": "Entgeltfortzahlungsgesetz", "name_en": "Continued Remuneration Act (sick pay)",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "NachwG", "slug": "nachwg",
+      "name_de": "Nachweisgesetz", "name_en": "Act on Proof of Employment Conditions",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "ArbZG", "slug": "arbzg",
+      "name_de": "Arbeitszeitgesetz", "name_en": "Working Hours Act",
+      "domain": "work", "include": []
+    },
+    {
+      "law": "GewO", "slug": "gewo",
+      "name_de": "Gewerbeordnung", "name_en": "Trade Regulation Act",
+      "domain": "work", "include": ["104-110"]
+    },
+    {
+      "law": "AGG", "slug": "agg",
+      "name_de": "Allgemeines Gleichbehandlungsgesetz", "name_en": "General Equal Treatment Act",
+      "domain": "rights", "include": []
+    },
+    {
+      "law": "BMG", "slug": "bmg",
+      "name_de": "Bundesmeldegesetz", "name_en": "Federal Registration Act",
+      "domain": "residence", "include": ["17-23a"]
+    },
+    {
+      "law": "AufenthG", "slug": "aufenthg_2004",
+      "name_de": "Aufenthaltsgesetz", "name_en": "Residence Act",
+      "domain": "visa", "include": ["4-21", "27-36"]
+    },
+    {
+      "law": "SGB V", "slug": "sgb_5",
+      "name_de": "Sozialgesetzbuch (SGB) Fünftes Buch (V) – Gesetzliche Krankenversicherung",
+      "name_en": "Social Code Book V – Statutory Health Insurance",
+      "domain": "insurance", "include": ["5-10"]
+    },
+    {
+      "law": "BAföG", "slug": "baf_g",
+      "name_de": "Bundesausbildungsförderungsgesetz", "name_en": "Federal Training Assistance Act (student finance)",
+      "domain": "education", "include": ["1-17"]
+    },
+    {
+      "law": "WoGG", "slug": "wogg",
+      "name_de": "Wohngeldgesetz", "name_en": "Housing Benefit Act (Wohngeld)",
+      "domain": "housing", "include": ["1-7"]
+    },
+    {
+      "law": "MuSchG", "slug": "muschg_2018",
+      "name_de": "Mutterschutzgesetz", "name_en": "Maternity Protection Act",
+      "domain": "rights", "include": []
+    },
+    {
+      "law": "BEEG", "slug": "beeg",
+      "name_de": "Bundeselterngeld- und Elternzeitgesetz", "name_en": "Federal Parental Allowance and Parental Leave Act",
+      "domain": "work", "include": ["1-4", "15-18"]
+    },
+    {
+      "law": "SGB III", "slug": "sgb_3",
+      "name_de": "Sozialgesetzbuch (SGB) Drittes Buch (III) – Arbeitsförderung",
+      "name_en": "Social Code Book III – Employment Promotion (unemployment benefit)",
+      "domain": "work", "include": ["38", "137-164"]
+    },
+    {
+      "law": "StAG", "slug": "stag",
+      "name_de": "Staatsangehörigkeitsgesetz", "name_en": "Nationality Act (citizenship & naturalisation)",
+      "domain": "citizenship", "include": ["3-4", "8-16"]
+    }
+  ]
+}

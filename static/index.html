@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LegalAddress</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  /* ── Light: aged paper & sepia ink ─────────────────────────── */
+  :root, [data-theme="light"] {
+    --bg:#f3e9d2; --bg2:#efe3c7; --card:#fbf4e1; --line:#ddccab;
+    --fg:#2f2a20; --muted:#7c6f57; --accent:#8a3324; --accent-soft:rgba(138,51,36,.10);
+    --warn-bg:rgba(176,123,30,.12); --warn-line:#b07b1e; --warn-fg:#6b4d12;
+    --code:#ece0c4; --shadow:rgba(74,57,28,.14);
+  }
+  /* ── Dark: warm candlelight ────────────────────────────────── */
+  [data-theme="dark"] {
+    --bg:#1b1712; --bg2:#211c15; --card:#262019; --line:#3a3024;
+    --fg:#ece0c9; --muted:#a8967a; --accent:#d98e5a; --accent-soft:rgba(217,142,90,.12);
+    --warn-bg:rgba(217,168,90,.10); --warn-line:#c79a52; --warn-fg:#e7c890;
+    --code:#15110c; --shadow:rgba(0,0,0,.35);
+  }
+
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body {
+    margin:0;
+    font:18px/1.7 "Spectral", Georgia, "Times New Roman", serif;
+    background:var(--bg);
+    color:var(--fg);
+    /* soft paper warmth: vignette + grain-free gradient wash */
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, var(--bg2), transparent 60%),
+      radial-gradient(140% 120% at 50% 120%, var(--accent-soft), transparent 55%);
+    background-attachment:fixed;
+    transition:background-color .35s ease, color .35s ease;
+  }
+
+  header {
+    padding:26px 22px 20px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:14px; flex-wrap:wrap;
+    max-width:860px; margin:0 auto;
+  }
+  .brand { display:flex; align-items:baseline; gap:12px; }
+  h1 {
+    font-family:"Fraunces", Georgia, serif;
+    font-optical-sizing:auto;
+    font-weight:600; font-size:30px; letter-spacing:.01em;
+    margin:0; line-height:1;
+  }
+  h1 .amp { color:var(--accent); }
+  .sub {
+    color:var(--muted); font-size:14px; font-style:italic;
+    margin-top:6px; max-width:46ch;
+  }
+  .controls { display:flex; align-items:center; gap:10px; }
+  .account { display:flex; align-items:center; gap:8px; }
+  .who { color:var(--muted); font-size:13px; font-style:italic; max-width:18ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  main { max-width:860px; margin:0 auto; padding:30px 22px 80px; }
+
+  .lead {
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:500; font-size:15px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted);
+    margin:0 0 14px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .lead::after { content:""; flex:1; height:1px; background:var(--line); }
+
+  textarea {
+    width:100%; min-height:108px; padding:16px 18px;
+    border-radius:4px; border:1px solid var(--line);
+    background:var(--card); color:var(--fg);
+    font:inherit; font-size:18px; resize:vertical;
+    box-shadow:0 1px 0 var(--shadow);
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+  textarea::placeholder { color:var(--muted); font-style:italic; }
+
+  .row { display:flex; gap:12px; align-items:center; margin-top:14px; flex-wrap:wrap; }
+
+  button {
+    font:inherit; cursor:pointer;
+    background:var(--accent); color:#fbf4e1; border:0;
+    padding:11px 26px; border-radius:4px;
+    font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:16px;
+    letter-spacing:.02em;
+    transition:filter .2s ease, transform .05s ease;
+  }
+  button:hover { filter:brightness(1.06); }
+  button:active { transform:translateY(1px); }
+  button:disabled { opacity:.5; cursor:default; }
+
+  /* segmented + icon controls share a quiet ghost style */
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:4px; overflow:hidden; background:var(--card); }
+  .seg button {
+    background:transparent; color:var(--muted);
+    border-radius:0; padding:8px 14px; font-size:13px; font-weight:600;
+    letter-spacing:.06em;
+  }
+  .seg button:hover { filter:none; color:var(--fg); }
+  .seg button.on { background:var(--accent-soft); color:var(--accent); }
+
+  .icon-btn {
+    background:var(--card); color:var(--muted);
+    border:1px solid var(--line); border-radius:4px;
+    width:40px; height:38px; padding:0; font-size:17px; line-height:1;
+    display:inline-flex; align-items:center; justify-content:center;
+  }
+  .icon-btn:hover { filter:none; color:var(--accent); border-color:var(--accent); }
+
+  .disclaimer { color:var(--muted); font-size:14px; font-style:italic; margin-top:14px; line-height:1.6; }
+
+  .answer {
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:34px 40px 30px;
+    margin-top:34px;
+    box-shadow:0 2px 24px var(--shadow);
+    position:relative;
+  }
+  .answer p {
+    margin:0 0 1em; text-align:justify;
+    hyphens:auto; -webkit-hyphens:auto;
+  }
+  /* drop-cap on the opening paragraph — the old-book flourish */
+  .answer #ans > p:first-of-type::first-letter {
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:600; float:left; line-height:.78;
+    font-size:3.4em; padding:6px 10px 0 0; color:var(--accent);
+  }
+  .answer h2 { font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:23px; margin:1em 0 .35em; }
+  .answer h3 { font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:18px; margin:1em 0 .3em; }
+  .answer ul { padding-left:1.3em; margin:.4em 0 1em; }
+  .answer li { margin:6px 0; }
+
+  .escalate {
+    background:var(--warn-bg); border:1px solid var(--warn-line); color:var(--warn-fg);
+    border-radius:4px; padding:13px 16px; margin-bottom:18px;
+    font-size:15px; font-style:italic; line-height:1.55;
+  }
+
+  .sources { margin-top:22px; border-top:1px solid var(--line); padding-top:16px; }
+  .sources h4 {
+    font-family:"Fraunces", Georgia, serif;
+    margin:0 0 10px; font-size:13px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.16em; font-weight:600;
+  }
+  .sources a { color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft); }
+  .sources a:hover { border-bottom-color:var(--accent); }
+  .sources li { margin:6px 0; font-size:15px; }
+
+  .err { color:#c0392b; font-style:normal; }
+  [data-theme="dark"] .err { color:#ff9b8b; }
+  .spin { color:var(--muted); font-style:italic; }
+  code { background:var(--code); padding:1px 6px; border-radius:3px; font-size:.92em; }
+  .cursor::after { content:"▋"; color:var(--accent); animation:blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  @media (max-width:560px) {
+    .answer { padding:24px 22px; }
+    h1 { font-size:25px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-block">
+    <div class="brand">
+      <h1>Legal<span class="amp">·</span>Address</h1>
+    </div>
+    <div class="sub" id="tagline">Legal information for students &amp; professionals in Germany</div>
+  </div>
+  <div class="controls">
+    <div class="seg" id="lang">
+      <button data-l="en" class="on">EN</button>
+      <button data-l="de">DE</button>
+    </div>
+    <button class="icon-btn" id="theme" title="Toggle light / dark" aria-label="Toggle light / dark">☾</button>
+    <div class="account">
+      <span class="who" id="who"></span>
+      <button class="icon-btn" id="logout" title="Sign out" aria-label="Sign out">⎋</button>
+    </div>
+  </div>
+</header>
+<main>
+  <p class="lead" id="lead">Pose your question</p>
+  <textarea id="q" placeholder="Ask about housing, work, contracts, visa, insurance, your rights…"></textarea>
+  <div class="row">
+    <button id="ask">Ask</button>
+    <span class="spin" id="status"></span>
+  </div>
+  <div class="disclaimer" id="disclaimer">
+    This provides general legal <em>information</em>, not legal advice. For your specific case, consult a Rechtsanwalt or an advice centre (Mieterverein, Verbraucherzentrale).
+  </div>
+  <div id="out"></div>
+</main>
+
+<script>
+const T = {
+  en: { tagline:"Legal information for students & professionals in Germany",
+        lead:"Pose your question",
+        ph:"Ask about housing, work, contracts, visa, insurance, your rights…", ask:"Ask",
+        thinking:"Searching the law…",
+        disclaimer:"This provides general legal <em>information</em>, not legal advice. For your specific case, consult a Rechtsanwalt or an advice centre (Mieterverein, Verbraucherzentrale).",
+        sources:"Sources", escalate:"This looks time-sensitive. German legal deadlines are short (e.g. 3 weeks to contest a dismissal). Consider getting qualified help right away." },
+  de: { tagline:"Rechtsinformationen für Studierende & Berufstätige in Deutschland",
+        lead:"Stelle deine Frage",
+        ph:"Frag zu Wohnen, Arbeit, Verträgen, Visum, Versicherung, deinen Rechten…", ask:"Fragen",
+        thinking:"Durchsuche die Gesetze…",
+        disclaimer:"Dies sind allgemeine rechtliche <em>Informationen</em>, keine Rechtsberatung. Für deinen Einzelfall wende dich an eine Rechtsanwältin/einen Rechtsanwalt oder eine Beratungsstelle (Mieterverein, Verbraucherzentrale).",
+        sources:"Quellen", escalate:"Das wirkt zeitkritisch. Fristen in Deutschland sind kurz (z. B. 3 Wochen gegen eine Kündigung). Hol dir möglichst schnell qualifizierte Hilfe." }
+};
+let lang = "en";
+
+// ── Account: show who's signed in, handle sign-out ─────────────
+(async function initAccount() {
+  try {
+    const r = await fetch("/me");
+    if (r.ok) {
+      const d = await r.json();
+      document.getElementById("who").textContent = d.email || "";
+    } else if (r.status === 401) {
+      window.location.href = "/login";
+    }
+  } catch (e) { /* offline — leave the page as is */ }
+})();
+document.getElementById("logout").onclick = async () => {
+  try { await fetch("/auth/logout", { method: "POST" }); } catch (e) {}
+  window.location.href = "/login";
+};
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById("tagline").textContent = t.tagline;
+  document.getElementById("lead").textContent = t.lead;
+  document.getElementById("q").placeholder = t.ph;
+  document.getElementById("ask").textContent = t.ask;
+  document.getElementById("disclaimer").innerHTML = t.disclaimer;
+  document.documentElement.lang = lang;
+}
+document.querySelectorAll("#lang button").forEach(b => b.onclick = () => {
+  lang = b.dataset.l;
+  document.querySelectorAll("#lang button").forEach(x => x.classList.toggle("on", x===b));
+  applyLang();
+});
+
+// ── Theme: warm paper (light) ↔ candlelight (dark), persisted ──
+const themeBtn = document.getElementById("theme");
+function applyTheme(mode) {
+  document.documentElement.setAttribute("data-theme", mode);
+  themeBtn.textContent = mode === "dark" ? "☀" : "☾";
+  try { localStorage.setItem("la-theme", mode); } catch (e) {}
+}
+themeBtn.onclick = () => {
+  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  applyTheme(next);
+};
+(function initTheme() {
+  let saved;
+  try { saved = localStorage.getItem("la-theme"); } catch (e) {}
+  applyTheme(saved || "light");   // default to the paper light theme
+})();
+
+// Minimal, safe markdown: escape first, then headings + bold + bullets + paragraphs.
+function render(md) {
+  const esc = md.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const lines = esc.split("\n");
+  let html = "", inList = false;
+  const closeList = () => { if (inList) { html += "</ul>"; inList = false; } };
+  for (let raw of lines) {
+    let line = raw.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/`(.+?)`/g,"<code>$1</code>");
+    if (/^\s*###\s+/.test(line))      { closeList(); html += "<h3>" + line.replace(/^\s*###\s+/,"") + "</h3>"; }
+    else if (/^\s*##\s+/.test(line))  { closeList(); html += "<h2>" + line.replace(/^\s*##\s+/,"") + "</h2>"; }
+    else if (/^\s*[-*•]\s+/.test(line)) {
+      if (!inList) { html += "<ul>"; inList = true; }
+      html += "<li>" + line.replace(/^\s*[-*•]\s+/,"") + "</li>";
+    } else { closeList(); if (line.trim()) html += "<p>" + line + "</p>"; }
+  }
+  closeList();
+  return html;
+}
+
+async function ask() {
+  const q = document.getElementById("q").value.trim();
+  if (!q) return;
+  const t = T[lang], out = document.getElementById("out"), status = document.getElementById("status");
+  const btn = document.getElementById("ask");
+  btn.disabled = true; status.textContent = t.thinking;
+  out.innerHTML = '<div class="answer"><div id="esc"></div><div id="ans" class="cursor"></div><div id="src"></div></div>';
+  const ansEl = document.getElementById("ans");
+  let answerText = "";
+
+  try {
+    const r = await fetch("/ask", { method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ question:q, lang }) });
+
+    if (r.status === 401) { window.location.href = "/login"; return; }
+    if (!r.ok) {
+      const d = await r.json().catch(() => ({error:"Request failed ("+r.status+")"}));
+      out.innerHTML = `<div class="answer err">${d.error||"Error"}</div>`;
+      return;
+    }
+
+    const reader = r.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream:true });
+      let nl;
+      while ((nl = buf.indexOf("\n")) >= 0) {
+        const line = buf.slice(0, nl); buf = buf.slice(nl + 1);
+        if (!line.trim()) continue;
+        const ev = JSON.parse(line);
+        if (ev.type === "delta") {
+          status.textContent = "";
+          answerText += ev.text;
+          ansEl.innerHTML = render(answerText);
+        } else if (ev.type === "done") {
+          ansEl.classList.remove("cursor");
+          if (ev.escalation) document.getElementById("esc").innerHTML = `<div class="escalate">${t.escalate}</div>`;
+          if (ev.sources && ev.sources.length) {
+            let s = `<div class="sources"><h4>${t.sources}</h4><ul>`;
+            for (const x of ev.sources) {
+              const title = x.title ? " — " + x.title : "";
+              s += `<li><a href="${x.url}" target="_blank" rel="noopener">${x.citation}</a>${title}</li>`;
+            }
+            document.getElementById("src").innerHTML = s + "</ul></div>";
+          }
+        } else if (ev.type === "error") {
+          ansEl.classList.remove("cursor");
+          ansEl.innerHTML = `<div class="err">${ev.error}</div>`;
+        }
+      }
+    }
+  } catch (e) {
+    out.innerHTML = `<div class="answer err">${e}</div>`;
+  } finally {
+    btn.disabled = false; status.textContent = "";
+    ansEl && ansEl.classList.remove("cursor");
+  }
+}
+document.getElementById("ask").onclick = ask;
+document.getElementById("q").addEventListener("keydown", e => {
+  if ((e.metaKey||e.ctrlKey) && e.key === "Enter") ask();
+});
+applyLang();
+</script>
+</body>
+</html>
